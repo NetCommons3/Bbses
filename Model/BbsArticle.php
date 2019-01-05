@@ -125,8 +125,7 @@ class BbsArticle extends BbsesAppModel {
 			'Language' => 'M17n.Language',
 		]);
 
-		$langs = $this->Language->getLanguage();
-		if (count($langs) > 1) {
+		if ($this->Language->isMultipleLang()) {
 			$conditions = [
 				'BbsArticle.key = BbsArticleTree.bbs_article_key',
 				'OR' => array(
