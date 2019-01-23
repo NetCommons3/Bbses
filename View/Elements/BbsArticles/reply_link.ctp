@@ -47,5 +47,5 @@
 			'value' => Current::read('Frame.id')
 		)); ?>
 
-	<?php echo $this->Form->end(); ?>
+	<?php echo $this->NetCommonsForm->end(); ?>
 <?php endif;
