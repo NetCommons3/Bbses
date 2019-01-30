@@ -62,7 +62,7 @@
 						array('action' => 'view', 'key' => $key)
 					);
 				} elseif ($this->params['action'] === 'edit') {
-					$key = isset($currentBbsArticle['BbsArticle']['key'])
+					$key = isset($this->request->data['BbsArticle']['key'])
 						? $this->request->data['BbsArticle']['key']
 						: null;
 					$cancelUrl = NetCommonsUrl::blockUrl(
