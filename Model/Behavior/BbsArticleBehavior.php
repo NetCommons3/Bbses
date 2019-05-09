@@ -195,14 +195,22 @@ class BbsArticleBehavior extends ModelBehavior {
  * @return array
  */
 	public function getChildrenArticleTitles(Model $model, $articleTreeIds) {
+		if (isset($model->actsAs['NetCommons.Trackable']['foreignFields']['created_by'])) {
+			$trackable = $model->actsAs['NetCommons.Trackable']['foreignFields']['created_by'];
+		} else {
+			$trackable = [
+				'TrackableCreator.id',
+				'TrackableCreator.handlename',
+			];
+		}
+
 		$query = array(
 			'recursive' => 0,
-			'fields' => [
+			'fields' => array_merge([
 				'BbsArticle.id', 'BbsArticle.title', 'BbsArticle.title_icon', 'BbsArticle.created',
 				'BbsArticle.key', 'BbsArticle.status',
 				'BbsArticleTree.id',
-				'TrackableCreator.id', 'TrackableCreator.handlename'
-			],
+			], $trackable),
 			'conditions' => $model->getWorkflowConditions(array(
 				'BbsArticleTree.root_id' => $articleTreeIds,
 			)),
