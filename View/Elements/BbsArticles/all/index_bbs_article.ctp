@@ -67,13 +67,16 @@
 			$type = $bbsFrameSetting['display_type'];
 		}
 		foreach ($treeLists[$bbsArticle['BbsArticleTree']['id']] as $treeId => $childArticle) {
-			echo $this->element(
-				'BbsArticles/' . $type . '/index_bbs_child_article',
-				array(
-					'bbsArticle' => $bbsArticleTitles[$treeId],
-					'indent' => substr_count($childArticle, '_') + 1
-				)
-			);
+			// 一時保存など権限の関係で見られない記事は$bbsArticleTitlesにセットされないので。
+			if (isset($bbsArticleTitles[$treeId])) {
+				echo $this->element(
+					'BbsArticles/' . $type . '/index_bbs_child_article',
+					array(
+						'bbsArticle' => $bbsArticleTitles[$treeId],
+						'indent' => substr_count($childArticle, '_') + 1
+					)
+				);
+			}
 		}
 		echo '</article>';
 	}
