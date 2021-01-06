@@ -130,7 +130,7 @@ class BbsArticlesController extends BbsesAppController {
 		$currentSort = isset($this->params['named']['sort'])
 			? $this->params['named']['sort']
 			: 'BbsArticle.created';
-		$currentDirection = isset($this->params['named']['sort'])
+		$currentDirection = isset($this->params['named']['direction'])
 			? $this->params['named']['direction']
 			: 'desc';
 		if (! isset($options[$currentSort . '.' . $currentDirection])) {
