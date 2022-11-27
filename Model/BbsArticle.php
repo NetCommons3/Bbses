@@ -370,8 +370,8 @@ class BbsArticle extends BbsesAppModel {
 		if ($childArticle) {
 			return false;
 		}
-
-		return ((int)$data['BbsArticle']['created_user'] === (int)Current::read('User.id'));
+		return (Current::permission('content_creatable') &&
+			((int)$data['BbsArticle']['created_user'] === (int)Current::read('User.id')));
 	}
 
 }

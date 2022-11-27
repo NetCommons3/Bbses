@@ -26,6 +26,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '1',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '3',
 			'is_active' => false,
@@ -41,6 +42,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '2',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -57,6 +59,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '3',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -74,6 +77,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '4',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '3',
 			'is_active' => false,
@@ -90,6 +94,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '5',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '3',
 			'is_active' => false,
@@ -106,6 +111,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '6',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -122,6 +128,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '7',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -137,6 +144,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '8',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -152,6 +160,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '9',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -168,6 +177,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '10',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -184,6 +194,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '11',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -200,6 +211,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '12',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => true,
@@ -216,6 +228,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '13',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '2',
 			'is_active' => false,
@@ -232,6 +245,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '14',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => true,
@@ -248,6 +262,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		array(
 			'id' => '15',
 			'bbs_key' => 'bbs_1',
+			'block_id' => '2',
 			'language_id' => '2',
 			'status' => '2',
 			'is_active' => false,
