@@ -400,6 +400,9 @@ class BbsArticlesController extends BbsesAppController {
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
 		));
+		if (empty($bbsArticle)) {
+			return $this->throwBadRequest();
+		}
 
 		// WorkflowBehavior::canEditWorkflowContentをBbsArticle::canEditWorkflowContentでoverride
 		if (! $this->BbsArticle->canEditWorkflowContent($bbsArticle)) {
