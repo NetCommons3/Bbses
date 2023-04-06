@@ -270,7 +270,7 @@ class BbsArticlesController extends BbsesAppController {
 			$bbsArticleChildren[$child['BbsArticleTree']['id']] = $child;
 		}
 
-		$this->set('bbsArticleChildren', $children);
+		$this->set('bbsArticleChildren', $bbsArticleChildren);
 	}
 
 /**
