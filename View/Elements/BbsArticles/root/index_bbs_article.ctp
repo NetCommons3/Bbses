@@ -26,7 +26,7 @@
 		<?php if ($bbsSetting['use_comment']) : ?>
 			<div class="inline-block bbses-comment-count">
 				<span class="glyphicon glyphicon-comment text-muted" aria-hidden="true"></span>
-				<?php if (isset($bbsArticle['BbsArticleTree']['approval_bbs_article_child_count'])) : ?>
+				<?php if (!empty($bbsArticle['BbsArticleTree']['approval_bbs_article_child_count'])) : ?>
 					<?php
 						echo __d(
 							'bbses',
