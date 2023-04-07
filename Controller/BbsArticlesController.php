@@ -50,7 +50,8 @@ class BbsArticlesController extends BbsesAppController {
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
-				'add,edit,delete' => 'content_creatable',
+				'add' => 'content_creatable',
+				'edit,delete' => 'content_comment_creatable',
 				'reply' => 'content_comment_creatable',
 				'approve' => 'content_comment_publishable',
 			),
@@ -105,7 +106,7 @@ class BbsArticlesController extends BbsesAppController {
 		$query['conditions'] = $this->BbsArticle->getWorkflowConditions(array(
 			'BbsArticleTree.parent_id' => null,
 			'BbsArticle.bbs_key' => $this->viewVars['bbs']['key'],
-		));
+		), true);
 
 		//ソート
 		$options = array(
@@ -215,7 +216,7 @@ class BbsArticlesController extends BbsesAppController {
 				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
-		));
+		), true);
 		if (! $bbsArticle) {
 			return $this->throwBadRequest();
 		}
@@ -242,7 +243,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		//子記事の取得
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
-			'scope' => $this->BbsArticle->getWorkflowConditions()
+			'scope' => $this->BbsArticle->getWorkflowConditions([], true)
 		));
 
 		if ($this->viewVars['bbsFrameSetting']['display_type'] === BbsFrameSetting::DISPLAY_TYPE_FLAT) {
@@ -269,7 +270,7 @@ class BbsArticlesController extends BbsesAppController {
 			$bbsArticleChildren[$child['BbsArticleTree']['id']] = $child;
 		}
 
-		$this->set('bbsArticleChildren', $children);
+		$this->set('bbsArticleChildren', $bbsArticleChildren);
 	}
 
 /**
@@ -324,7 +325,7 @@ class BbsArticlesController extends BbsesAppController {
 				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
-		));
+		), true);
 
 		if (!isset($bbsArticle['BbsArticle']['status']) ||
 			$bbsArticle['BbsArticle']['status'] !== WorkflowComponent::STATUS_PUBLISHED) {
@@ -399,7 +400,7 @@ class BbsArticlesController extends BbsesAppController {
 				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
-		));
+		), true);
 		if (empty($bbsArticle)) {
 			return $this->throwBadRequest();
 		}
@@ -451,7 +452,7 @@ class BbsArticlesController extends BbsesAppController {
 				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $this->data['BbsArticle']['key']
 			)
-		));
+		), true);
 
 		//削除権限チェック
 		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
@@ -465,7 +466,7 @@ class BbsArticlesController extends BbsesAppController {
 				'conditions' => array(
 					$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['parent_id'],
 				)
-			));
+			), true);
 			if (! $parentBbsArticle) {
 				return $this->throwBadRequest();
 			}
@@ -502,7 +503,7 @@ class BbsArticlesController extends BbsesAppController {
 				$this->BbsArticle->alias . '.bbs_key' => $this->data['BbsArticle']['bbs_key'],
 				$this->BbsArticle->alias . '.key' => $this->data['BbsArticle']['key']
 			)
-		));
+		), true);
 		if (! $bbsArticle) {
 			return $this->throwBadRequest();
 		}
@@ -597,7 +598,7 @@ class BbsArticlesController extends BbsesAppController {
 			'conditions' => array(
 				$this->BbsArticleTree->alias . '.id' => $bbsArticleTreeId,
 			)
-		));
+		), true);
 		if (! $bbsArticle) {
 			return false;
 		}

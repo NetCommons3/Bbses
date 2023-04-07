@@ -156,7 +156,7 @@ class BbsArticleBehavior extends ModelBehavior {
 			'conditions' => $model->getWorkflowConditions(array(
 				'BbsArticleTree.root_id' => $articleTreeIds,
 				'BbsArticleTree.bbs_key' => $bbsKey,
-			)),
+			), true),
 			'joins' => [
 				[
 					'type' => 'INNER',
@@ -213,7 +213,7 @@ class BbsArticleBehavior extends ModelBehavior {
 			], $trackable),
 			'conditions' => $model->getWorkflowConditions(array(
 				'BbsArticleTree.root_id' => $articleTreeIds,
-			)),
+			), true),
 		);
 		$results = $model->find('all', $query);
 

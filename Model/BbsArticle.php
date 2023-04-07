@@ -282,8 +282,6 @@ class BbsArticle extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function deleteBbsArticle($data) {
-		//トランザクションBegin
-		$this->begin();
 		$this->set($data);
 
 		$bbsArticleTree = $this->BbsArticleTree->find('first', array(
@@ -308,6 +306,8 @@ class BbsArticle extends BbsesAppModel {
 			),
 		));
 
+		//トランザクションBegin
+		$this->begin();
 		try {
 			//BbsArticleの削除
 			$this->contentKey = $bbsArticleTrees;
@@ -330,6 +330,14 @@ class BbsArticle extends BbsesAppModel {
 			$this->updateBbsByBbsArticle(
 				$data['Bbs']['key'], $data['BbsArticle']['language_id']
 			);
+
+			if (isset($this->data['BbsArticleTree']['root_id']) &&
+					$this->data['BbsArticleTree']['root_id']) {
+				$this->updateBbsArticleChildCount(
+					$this->data['BbsArticleTree']['root_id'],
+					$this->data[$this->alias]['language_id']
+				);
+			}
 
 			//トランザクションCommit
 			$this->commit();
@@ -370,7 +378,14 @@ class BbsArticle extends BbsesAppModel {
 		if ($childArticle) {
 			return false;
 		}
-		return (Current::permission('content_creatable') &&
+
+		if (empty($data['BbsArticleTree']['root_id'])) {
+			$permission = 'content_creatable';
+		} else {
+			$permission = 'content_comment_creatable';
+		}
+
+		return (Current::permission($permission) &&
 			((int)$data['BbsArticle']['created_user'] === (int)Current::read('User.id')));
 	}
 
