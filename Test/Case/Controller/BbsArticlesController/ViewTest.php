@@ -288,11 +288,11 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
  */
 	public function testViewError($urlOptions, $assert, $exception = null, $return = 'view') {
 		//Exception
-		ClassRegistry::removeObject('WorkflowBehavior');
-		$workflowBehaviorMock = $this->getMock('WorkflowBehavior', ['canReadWorkflowContent']);
-		ClassRegistry::addObject('WorkflowBehavior', $workflowBehaviorMock);
-		$this->BbsArticle->Behaviors->unload('Workflow');
-		$this->BbsArticle->Behaviors->load('Workflow', $this->BbsArticle->actsAs['Workflow.Workflow']);
+		ClassRegistry::removeObject('BbsesWorkflowBehavior');
+		$workflowBehaviorMock = $this->getMock('BbsesWorkflowBehavior', ['canReadWorkflowContent']);
+		ClassRegistry::addObject('BbsesWorkflowBehavior', $workflowBehaviorMock);
+		$this->BbsArticle->Behaviors->unload('BbsesWorkflow');
+		$this->BbsArticle->Behaviors->load('BbsesWorkflow', $this->BbsArticle->actsAs['Bbses.BbsesWorkflow']);
 
 		$workflowBehaviorMock
 			->expects($this->once())

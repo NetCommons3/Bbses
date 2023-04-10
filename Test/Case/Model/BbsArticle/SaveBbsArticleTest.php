@@ -129,11 +129,49 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		Current::write('Language.id', '2');
 
 		parent::setUp();
+		Current::writePermission('2', 'content_comment_publishable', true);
+
 		$model = $this->_modelName;
 		$this->$model->Behaviors->unload('Like');
 		$this->$model->Behaviors->unload('Topics');
 		$this->$model->BbsArticleTree = ClassRegistry::init('Bbses.BbsArticleTree');
 		$this->$model->BbsArticleTree->Behaviors->unload('Like');
+	}
+
+/**
+ * Test to call BbsesWorkflowBehavior::beforeSave
+ *
+ * BbsesWorkflowBehaviorをモックに置き換えて登録処理を呼び出します。<br>
+ * BbsesWorkflowBehavior::beforeSaveが1回呼び出されることをテストします。<br>
+ * ##### 参考URL
+ * http://stackoverflow.com/questions/19833495/how-to-mock-a-cakephp-behavior-for-unit-testing]
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ * @throws CakeException Workflow.Workflowがロードされていないとエラー
+ */
+	public function testCallWorkflowBehavior($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
+		if (! $this->$model->Behaviors->loaded('Bbses.BbsesWorkflow')) {
+			$error = '"Workflow.Workflow" not loaded in ' . $this->$model->alias . '.';
+			throw new CakeException($error);
+		}
+
+		ClassRegistry::removeObject('BbsesWorkflowBehavior');
+		$workflowBehaviorMock = $this->getMock('BbsesWorkflowBehavior', ['beforeSave']);
+		ClassRegistry::addObject('BbsesWorkflowBehavior', $workflowBehaviorMock);
+		$this->$model->Behaviors->unload('BbsesWorkflow');
+		$this->$model->Behaviors->load('BbsesWorkflow', $this->$model->actsAs['Bbses.BbsesWorkflow']);
+
+		$workflowBehaviorMock
+			->expects($this->once())
+			->method('beforeSave')
+			->will($this->returnValue(true));
+
+		$this->$model->$method($data);
 	}
 
 /**

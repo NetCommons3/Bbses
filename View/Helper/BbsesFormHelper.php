@@ -38,9 +38,10 @@ class BbsesFormHelper extends AppHelper {
  * 返信フォームのボタン表示
  *
  * @param string $statusFieldName ステータスのフィールド名("Modelname.fieldname")
+ * @param string $cancelUrl キャンセルボタン
  * @return string ボタンHTML
  */
-	public function replyEditButtons($statusFieldName) {
+	public function replyButtons($statusFieldName, $cancelUrl) {
 		$output = '';
 		$output .= '<div class="panel-footer text-center">';
 
@@ -55,13 +56,6 @@ class BbsesFormHelper extends AppHelper {
 		//変更前のstatusを保持する
 		$output .= $this->NetCommonsForm->hidden('status_', array('value' => $status));
 
-		$key = null;
-		if (isset($this->_View->request->data['BbsArticle']['key'])) {
-			$key = $this->_View->request->data['BbsArticle']['key'];
-		}
-		$cancelUrl = NetCommonsUrl::blockUrl(
-			array('action' => 'view', 'key' => $key)
-		);
 		$cancelOptions = array(
 			'ng-class' => '{disabled: sending}',
 			'ng-click' => 'sending=true',
@@ -74,7 +68,7 @@ class BbsesFormHelper extends AppHelper {
 			'ng-class' => '{disabled: sending}'
 		);
 
-		if (Current::permission('content_publishable')) {
+		if (Current::permission('content_comment_publishable')) {
 			$saveOptions = array(
 				'label' => __d('net_commons', 'OK'),
 				'class' => 'btn btn-primary' . $this->Button->getButtonSize() . ' btn-workflow',
