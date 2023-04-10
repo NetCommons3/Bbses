@@ -54,7 +54,7 @@ class BbsArticle extends BbsesAppModel {
 		'Likes.Like',
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
-		'Workflow.Workflow',
+		'Bbses.BbsesWorkflow',
 		'Mails.MailQueue' => array(
 			'embedTags' => array(
 				'X-SUBJECT' => 'BbsArticle.title',

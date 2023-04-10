@@ -51,17 +51,19 @@
 		</div>
 
 		<?php
-			if ($this->params['action'] === 'edit' && $this->data['BbsArticleTree']['root_id']) {
-				echo $this->BbsesForm->replyEditButtons('BbsArticle.status');
-			} else {
+			if ($this->params['action'] === 'edit' && $this->data['BbsArticleTree']['root_id'] ||
+					$this->params['action'] === 'reply') {
 				if ($this->params['action'] === 'reply') {
-					$key = isset($currentBbsArticle['BbsArticle']['key'])
-						? $currentBbsArticle['BbsArticle']['key']
-						: null;
-					$cancelUrl = NetCommonsUrl::blockUrl(
-						array('action' => 'view', 'key' => $key)
-					);
-				} elseif ($this->params['action'] === 'edit') {
+					$key = $currentBbsArticle['BbsArticle']['key'] ?? null;
+				} else {
+					$key = $this->request->data['BbsArticle']['key'] ?? null;
+				}
+				$cancelUrl = NetCommonsUrl::blockUrl(
+					array('action' => 'view', 'key' => $key)
+				);
+				echo $this->BbsesForm->replyButtons('BbsArticle.status', $cancelUrl);
+			} else {
+				if ($this->params['action'] === 'edit') {
 					$key = isset($this->request->data['BbsArticle']['key'])
 						? $this->request->data['BbsArticle']['key']
 						: null;
