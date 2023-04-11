@@ -152,7 +152,7 @@ class BbsArticleBehavior extends ModelBehavior {
 
 		$query = array(
 			'recursive' => -1,
-			'fields' => ['BbsArticleTree.root_id', 'COUNT(*) AS bbs_article_child_count'],
+			'fields' => ['BbsArticleTree.root_id', 'BbsArticle.is_active'],
 			'conditions' => $model->getWorkflowConditions(array(
 				'BbsArticleTree.root_id' => $articleTreeIds,
 				'BbsArticleTree.bbs_key' => $bbsKey,
@@ -165,22 +165,30 @@ class BbsArticleBehavior extends ModelBehavior {
 					'conditions' => $model->belongsTo['BbsArticleTree']['conditions'],
 				]
 			],
-			'group' => array('BbsArticleTree.root_id'),
+			//'group' => array('BbsArticleTree.root_id', 'BbsArticle.is_active'),
 		);
 		$results = $model->find('all', $query);
 		$counts = [];
 		foreach ($results as $result) {
-			$counts[$result['BbsArticleTree']['root_id']] = $result[0]['bbs_article_child_count'];
+			$rootId = $result['BbsArticleTree']['root_id'];
+			$isActive = (int)$result['BbsArticle']['is_active'];
+			if (! isset($counts[$rootId])) {
+				$counts[$rootId] = [0 => 0, 1 => 0];
+			}
+			$counts[$rootId][$isActive]++;
 		}
 
 		foreach ($bbsArticles as $i => $article) {
 			if (isset($counts[$article['BbsArticleTree']['id']])) {
-				$count = $counts[$article['BbsArticleTree']['id']];
+				$id = $article['BbsArticleTree']['id'];
+				$activeCount = $counts[$id][1];
+				$latestCount = $counts[$id][0];
+				$count = $activeCount + $latestCount;
 
-				$beforeCount = $count - $bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'];
-				$bbsArticles[$i]['BbsArticleTree']['approval_bbs_article_child_count'] = (string)$beforeCount;
+				$approveCount = $count - $activeCount;
+				$bbsArticles[$i]['BbsArticleTree']['approval_bbs_article_child_count'] = (string)$approveCount;
 
-				$bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'] = $count;
+				$bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'] = (string)$count;
 			}
 		}
 
