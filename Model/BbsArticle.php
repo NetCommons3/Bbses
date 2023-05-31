@@ -200,6 +200,33 @@ class BbsArticle extends BbsesAppModel {
 	}
 
 /**
+ * Called before each save operation, after validation. Return a non-true result
+ * to halt the save.
+ *
+ * @param array $options Options passed from Model::save().
+ * @return bool True if the operation should continue, false if it should abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforesave
+ * @see Model::save()
+ */
+	public function beforeSave($options = array()) {
+		if (! empty($this->data['BbsArticleTree']['root_id'])) {
+			/** @see MailQueueBehavior::setSetting() */
+			$this->setSetting('editablePermissionKey', 'content_comment_editable');
+			$this->setSetting('publishablePermissionKey', 'content_comment_publishable');
+			$this->setSetting('workflowType', MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_COMMENT);
+			$this->data[$this->alias]['plugin_key'] = Current::read('Plugin.key');
+		}
+
+		if (! isset($this->data['Bbs'])) {
+			//メールの件名や本文に掲示板名が含まれているため、もし設定されていなかった場合、セットする。
+			$bbs = $this->Bbs->getBbs();
+			$this->data['Bbs'] = $bbs['Bbs'];
+		}
+
+		parent::beforeSave($options);
+	}
+
+/**
  * Called after each successful save operation.
  *
  * @param bool $created True if this save created a new record
