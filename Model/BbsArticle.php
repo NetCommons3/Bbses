@@ -14,6 +14,7 @@
  */
 
 App::uses('BbsesAppModel', 'Bbses.Model');
+App::uses('MailQueueBehavior', 'Mails.Model/Behavior');
 
 /**
  * BbsArticle Model
@@ -56,6 +57,7 @@ class BbsArticle extends BbsesAppModel {
 		'Workflow.WorkflowComment',
 		'Bbses.BbsesWorkflow',
 		'Mails.MailQueue' => array(
+			'workflowType' => MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_WORKFLOW,
 			'embedTags' => array(
 				'X-SUBJECT' => 'BbsArticle.title',
 				'X-BODY' => 'BbsArticle.content',
