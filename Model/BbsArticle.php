@@ -209,7 +209,8 @@ class BbsArticle extends BbsesAppModel {
  * @see Model::save()
  */
 	public function beforeSave($options = array()) {
-		if (! empty($this->data['BbsArticleTree']['root_id'])) {
+		if ($this->Behaviors->loaded('Mails.MailQueue') &&
+				! empty($this->data['BbsArticleTree']['root_id'])) {
 			/** @see MailQueueBehavior::setSetting() */
 			$this->setSetting('editablePermissionKey', 'content_comment_editable');
 			$this->setSetting('publishablePermissionKey', 'content_comment_publishable');
